@@ -72,10 +72,10 @@
 
 *       T en K
         TK=308.0d0
-*       F en C/micromol
-        FK=0.096500d0
-*       R en mJ micromol^-1 K^-1 (mJ car mV)
-        RK=0.008314d0
+*       F en fC/micromol
+        FK=96500d9
+*       R en fC mV micromol^-1 K^-1 (rmq : J=C.V)
+        RK=8.314d12
 
 *       c_m en pF
         c_m=3.14d0
@@ -277,7 +277,7 @@
 *	dkca_act/dt
 	f(4)=(kca_inf-y(4))/tau_kca
 *	dcai/dt
-	f(5)=ff*(-I_ca/(2*FK*A*d)-k_ca*y(5))
+	f(5)=ff*(-I_ca/(2*FK*A*d*1d-15)-k_ca*y(5))
 
       return
       end
