@@ -53,12 +53,12 @@
 
         g_na=172.0d0
         g_k=28.0d0*1.0
-*        g_ca=2.9d0*20.0d0
-        g_ca=2.9d0*15.0d0
-        g_k_ca=56.5d0*1.6
-*        g_k_ca=56.5d0*1.0
-*        g_l=0.0d0
-        g_l=0.0971d0
+        g_ca=2.9d0*20.0d0
+*        g_ca=2.9d0*15.0d0
+*        g_k_ca=56.5d0*1.6
+        g_k_ca=56.5d0*1.0
+        g_l=0.0d0
+*        g_l=0.0971d0
 *        g_l=0.5d0
 *       sinon dv/dt toujours <0 si I_inj>0
 
@@ -278,6 +278,7 @@
 	f(4)=(kca_inf-y(4))/tau_kca
 *	dcai/dt
 	f(5)=ff*(-I_ca/(2*FK*A*d*1d-15)-k_ca*y(5))
+* 1 L=10^15 um^3
 
       return
       end
