@@ -15,7 +15,7 @@
         double precision Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         double precision v_na, v_k, v_l, v_ca
         double precision c_m, I_inj
-        double precision FK, A, d,ff,k_ca
+        double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t_jump
         double precision  m_inf, h_inf, n_inf,
      1		s_inf, kca_inf
@@ -30,9 +30,10 @@
         common/cond/ g_na, g_k, g_ca, g_k_ca, g_l
         common/pot_equilibre/v_na, v_k, v_l, v_ca
         common/concentrations/Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
+        common/constantes/FK, TK, RK
         common/k_cell/c_m, I_inj
         common/gating/m_inf, n_inf
-        common/ca/FK, A, d, ff, k_ca
+        common/ca/ A, d, ff, k_ca
         common/steps/dt, t_max, t_print, dt_print, kk
         common/maxi/nm
         common/maxr/max1,max2,maxt1,maxt2
@@ -69,23 +70,15 @@
         Ca_in=0.1d0
         Ca_out=2000.0d0
 
-*        potentiels d inversion en mV
-*        RT/F=26.54 mV a 35C
-        v_na=26.54*(dlog(Na_out/Na_in))
-        v_k=26.54*(dlog(K_out/K_in))
-        v_ca=26.54*0.5*(dlog(Ca_out/Ca_in))
-*        v_na=57.7d0
-*        v_k=-90.d0
-*        v_ca=80.d0
-        v_l=-65.d0
-
-
+*       T en K
+        TK=308.0d0
+*       F en C/micromol
+        FK=0.096500d0
+*       R en mJ micromol^-1 K^-1 (mJ car mV)
+        RK=0.008314d0
 
 *       c_m en pF
         c_m=3.14d0
-
-*       F en C/micromol
-        FK=0.096500d0
 *       surface cellule en um^2 (4*pi*r^2)
         A=314
 *       epaisseur couche sous-membranaire en um
@@ -96,6 +89,14 @@
 *      extrusion calcium en ms^-1
         k_ca=10.0d0
 
+*        potentiels d inversion en mV
+        v_na=(RK*TK/FK)*(dlog(Na_out/Na_in))
+        v_k=(RK*TK/FK)*(dlog(K_out/K_in))
+        v_ca=(RK*TK/FK)*0.5*(dlog(Ca_out/Ca_in))
+*        v_na=57.7d0
+*        v_k=-90.d0
+*        v_ca=80.d0
+        v_l=-65.d0
 
         imax=1
 *      I_inj=0.06535097d0
@@ -209,7 +210,7 @@
         double precision Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         double precision v_na, v_k, v_l, v_ca
         double precision c_m, I_inj
-        double precision FK, A, d, ff, k_ca
+        double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t, dt_print
         double precision I_na, I_k, I_ca, I_k_ca, I_l
 	double precision  m_inf, h_inf, n_inf,
@@ -225,10 +226,11 @@
 
         common/cond/g_na, g_k, g_ca, g_k_ca, g_l
         common/concentrations/Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
+        common/constantes/FK, TK, RK
   	    common/pot_equilibre/v_na, v_k, v_l, v_ca
 	      common/k_cell/c_m, I_inj
 	      common/gating/m_inf, n_inf
-        common/ca/FK, A, d, ff, k_ca
+        common/ca/ A, d, ff, k_ca
         common/steps/dt, t_max, t_print, dt_print, kk
 
 * gating Ina
@@ -291,7 +293,7 @@
         double precision Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         double precision v_na, v_k, v_l, v_ca
         double precision c_m, I_inj
-        double precision FK, A, d, ff, k_ca
+        double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t_sol, dt_print
         double precision I_na, I_k, I_ca, I_k_ca, I_l
 	    double precision  m_inf, h_inf, n_inf,
@@ -311,10 +313,11 @@
 
         common/cond/g_na, g_k, g_ca, g_k_ca, g_l
         common/concentrations/Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
+        common/constantes/FK, TK, RK
   	    common/pot_equilibre/v_na, v_k, v_l, v_ca
   	    common/k_cell/c_m, I_inj
 	      common/gating/m_inf, n_inf
-        common/ca/FK, A, d, ff,k_ca
+        common/ca/ A, d, ff,k_ca
         common/steps/dt, t_max, t_print, dt_print, kk
 	      common/maxi/nm
 	      common/maxr/max1,max2,maxt1,maxt2
