@@ -212,23 +212,23 @@
         double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t, dt_print
         double precision I_na, I_k, I_ca, I_k_ca, I_l
-	      double precision  m_inf, h_inf, n_inf,
+	double precision  m_inf, h_inf, n_inf,
      1		s_inf, kca_inf
-	      double precision  tau_h,
+	double precision  tau_h,
      1		tau_s, tau_t, tau_kca
-	      double precision alpha_m, beta_m
-	      double precision alpha_h, beta_h
-	      double precision alpha_n, beta_n
-	      double precision alpha_s, beta_s
-	      double precision alpha_kca, beta_kca
+	double precision alpha_m, beta_m
+	double precision alpha_h, beta_h
+	double precision alpha_n, beta_n
+	double precision alpha_s, beta_s
+	double precision alpha_kca, beta_kca
         integer kk
 
         common/cond/g_na, g_k, g_ca, g_k_ca, g_l
         common/concentrations/Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         common/constantes/FK, TK, RK
-  	    common/pot_equilibre/v_na, v_k, v_l, v_ca
-	      common/k_cell/c_m, I_inj
-	      common/gating/m_inf, n_inf
+  	common/pot_equilibre/v_na, v_k, v_l, v_ca
+	common/k_cell/c_m, I_inj
+	common/gating/m_inf, n_inf
         common/ca/ A, d, ff, k_ca
         common/steps/dt, t_max, t_print, dt_print, kk
 
@@ -261,7 +261,7 @@
 	      I_na=g_na*m_inf**3*y(2)*(y(1)-v_na)
 	      I_k=g_k*n_inf**4*1*(y(1)-v_k)
 	      I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
-      	I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
+      	      I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
 	      I_l=g_l*(y(1)-v_l)
 
 * Equations
@@ -295,31 +295,31 @@
         double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t_sol, dt_print
         double precision I_na, I_k, I_ca, I_k_ca, I_l
-	      double precision  m_inf, h_inf, n_inf,
+	double precision  m_inf, h_inf, n_inf,
      1		s_inf, kca_inf
-	      double precision  tau_h,
+	double precision  tau_h,
      1		tau_s, tau_t, tau_kca
-	      double precision alpha_m, beta_m
-	      double precision alpha_h, beta_h
-	      double precision alpha_n, beta_n
-	      double precision alpha_s, beta_s
-	      double precision alpha_kca, beta_kca
+	double precision alpha_m, beta_m
+	double precision alpha_h, beta_h
+	double precision alpha_n, beta_n
+	double precision alpha_s, beta_s
+	double precision alpha_kca, beta_kca
 
-	      double precision max1,max2,maxt1,maxt2
-	      integer nm, kk
+	double precision max1,max2,maxt1,maxt2
+	integer nm, kk
 
 
 
         common/cond/g_na, g_k, g_ca, g_k_ca, g_l
         common/concentrations/Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         common/constantes/FK, TK, RK
-  	    common/pot_equilibre/v_na, v_k, v_l, v_ca
-  	    common/k_cell/c_m, I_inj
-	      common/gating/m_inf, n_inf
+  	common/pot_equilibre/v_na, v_k, v_l, v_ca
+  	common/k_cell/c_m, I_inj
+	common/gating/m_inf, n_inf
         common/ca/ A, d, ff,k_ca
         common/steps/dt, t_max, t_print, dt_print, kk
-	      common/maxi/nm
-	      common/maxr/max1,max2,maxt1,maxt2
+	common/maxi/nm
+	common/maxr/max1,max2,maxt1,maxt2
 
 	      I_na=g_na*m_inf**3*y(2)*(y(1)-v_na)
 	      I_k=g_k*n_inf**4*1*(y(1)-v_k)
