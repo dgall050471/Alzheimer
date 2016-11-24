@@ -275,7 +275,7 @@
 	      I_na=g_na*m_inf**3*y(2)*(y(1)-v_na)
 	      I_k=g_k*n_inf**4*1*(y(1)-v_k)
 	      I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
-      	  I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
+        I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
 	      I_l=g_l*(y(1)-v_l)
           I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
      1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
@@ -367,7 +367,7 @@
 	           if(nm.eq.0)then
               		maxt1=t_sol
 			            write(6,*)'maxt1',maxt1
-			            write(6,*)'max1',max1
+			            write(6,*)'max1',max2
 			            nm=1
 	           elseif(nm.eq.1)then
 		          maxt2=t_sol
