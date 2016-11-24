@@ -63,7 +63,7 @@
 *       sinon dv/dt toujours <0 si I_inj>0
 
 *       scaling I_nmda
-*       g_nmda_est permeabilité max 
+*       g_nmda_est permeabilité max
 *       en 10^15 um/ms (L=10^15 um^3)
 *       valeur Naranayan 10 nm/s
         g_nmda=10d-21
@@ -124,10 +124,10 @@
 *       parametres pour la routine d integration
 
         t_max=10000.d0
-		    t_print=0.d0
+		    t_print=10.0d0
 		    t_jump=6000.d0
         dt=0.005d0
-        dt_print=0.005d0
+        dt_print=0.05d0
         t=0.0d0
         adtol=0.01d0
         i_max=int(t_max/dt)
@@ -226,7 +226,7 @@
         double precision g_nmda, P_na
         double precision c_m, I_inj
         double precision FK, TK, RK, A, d,ff,k_ca
-        double precision dt, t_max, t_print, t, dt_print
+        double precision dt, t_max, t_print, t, dt_print,t_sol
         double precision I_na, I_k, I_ca, I_k_ca, I_l
         double precision I_nmda_na
         double precision  m_inf, h_inf, n_inf,
@@ -317,7 +317,7 @@
         double precision g_nmda, P_na
         double precision c_m, I_inj
         double precision FK, TK, RK, A, d,ff,k_ca
-        double precision dt, t_max, t_print, t_sol, dt_print
+        double precision dt, t_max, t_print, t_sol, dt_print, t
         double precision I_na, I_k, I_ca, I_k_ca, I_l
         double precision I_nmda_na
         double precision  m_inf, h_inf, n_inf,
@@ -357,34 +357,37 @@
      1    /(1-dexp(-y(1)*FK/(RK*TK)))
 
 
-        if(t_sol.ge.t_print)then
-        if(abs(t_sol-(kk*dt_print)).lt.0.001d0) then
-           	write(18,10)t_sol-t_print, y(1), y(5)
+        if(t_sol.ge.t_print) then
+         if(abs(t_sol-(t_print+kk*dt_print)).lt.0.001d0) then
+           	write(18,10)t_sol, y(1), y(5)
      1		,I_na, I_k, I_ca, I_k_ca, I_nmda_na
-        	call flush(18)
-			  kk=kk+1
+          	call flush(18)
+*          write(6,*)'t_print',t_print, t_sol, t_sol-t_print
+			     kk=kk+1
+         endif
+
 * pour detecter amplitude max
            if((max2.gt.y(1)).and.(max2.gt.max1)
      1       .and.(max2.ge.-20.d0))then
-	         if(nm.eq.0)then
+	           if(nm.eq.0)then
               		maxt1=t_sol
-			              write(6,*)'maxt1',maxt1
-			              write(6,*)'max1',max1
+			            write(6,*)'maxt1',maxt1
+			            write(6,*)'max1',max1
 			            nm=1
-	        elseif(nm.eq.1)then
+	           elseif(nm.eq.1)then
 		          maxt2=t_sol
-		            write(6,*)'maxt2',maxt2
-		            write(6,*)'max2',max2
+		          write(6,*)'maxt2',maxt2
+		          write(6,*)'max2',max2
 
-	        if(max2.ge.-20.d0)then
-     			write(17,*)I_inj,1000.d0/(maxt2-maxt1),t_sol
-			       call flush(17)
-			          write(6,*)I_inj,1000.d0/(maxt2-maxt1)
-			             nm=2
-		               endif
-	                endif
-	               endif
-           endif
+	              if(max2.ge.-20.d0)then
+     			        write(17,*)I_inj,1000.d0/(maxt2-maxt1),t_sol
+			            call flush(17)
+			            write(6,*)I_inj,1000.d0/(maxt2-maxt1)
+			            nm=2
+		            endif
+	            endif
+	          endif
+
            max1=max2
            max2=y(1)
 
