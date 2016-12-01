@@ -14,7 +14,7 @@
         double precision g_na, g_k, g_ca, g_k_ca, g_l
         double precision Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         double precision v_na, v_k, v_l, v_ca
-        double precision g_nmda, P_na
+        double precision g_nmda, P_na, P_k, P_ca
         double precision c_m, I_inj
         double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t_jump
@@ -30,7 +30,7 @@
 
         common/cond/ g_na, g_k, g_ca, g_k_ca, g_l
         common/pot_equilibre/v_na, v_k, v_l, v_ca
-        common/i_nmda_na/g_nmda, P_na
+        common/i_nmda/g_nmda, P_na, P_k, P_ca
         common/concentrations/Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         common/constantes/FK, TK, RK
         common/k_cell/c_m, I_inj
@@ -67,7 +67,9 @@
 *       en 10^15 um/ms (L=10^15 um^3)
 *       valeur Naranayan 10 nm/s
         g_nmda=10d-21
-        P_na=1d0
+        P_na=1.0d0
+        P_k=1.0d0
+        P_ca=10.6d0
 
 *       concentrations en microM
         Na_in=18000.0d0
@@ -218,12 +220,12 @@
         double precision g_na, g_k, g_ca, g_k_ca, g_l
         double precision Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         double precision v_na, v_k, v_l, v_ca
-        double precision g_nmda, P_na
+        double precision g_nmda, P_na, P_k, P_ca
         double precision c_m, I_inj
         double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t, dt_print,t_sol
         double precision I_na, I_k, I_ca, I_k_ca, I_l
-        double precision I_nmda_na
+        double precision I_nmda_na, I_nmda_k, I_nmda_ca
         double precision  m_inf, h_inf, n_inf,
      1		s_inf, kca_inf
         double precision  tau_h,
@@ -240,7 +242,7 @@
         common/concentrations/Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         common/constantes/FK, TK, RK
         common/pot_equilibre/v_na, v_k, v_l, v_ca
-        common/i_nmda_na/g_nmda, P_na
+        common/i_nmda/g_nmda, P_na, P_k, P_ca
         common/k_cell/c_m, I_inj
         common/gating/m_inf, n_inf
         common/ca/ A, d, ff, k_ca
@@ -264,7 +266,7 @@
 	      tau_s=1/(alpha_s(y(1))+beta_s(y(1)))
 
 * gating Ikca
-	      kca_inf=alpha_kca(y(1),y(5))/(alpha_kca(y(1),y(5))
+        kca_inf=alpha_kca(y(1),y(5))/(alpha_kca(y(1),y(5))
      1    +beta_kca(y(1),y(5)))
 
         tau_kca=1/(alpha_kca(y(1),y(5))+beta_kca(y(1),y(5)))
@@ -272,15 +274,20 @@
 
 * currents
 
-	      I_na=g_na*m_inf**3*y(2)*(y(1)-v_na)
-	      I_k=g_k*n_inf**4*1*(y(1)-v_k)
-	      I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
-        I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
-	      I_l=g_l*(y(1)-v_l)
+          I_na=g_na*m_inf**3*y(2)*(y(1)-v_na)
+          I_k=g_k*n_inf**4*1*(y(1)-v_k)
+          I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
+          I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
+          I_l=g_l*(y(1)-v_l)
           I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
      1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
      1    /(1-dexp(-y(1)*FK/(RK*TK)))
-
+          I_nmda_k=g_nmda*P_k*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
+     1    *(K_in-K_out*dexp(-y(1)*FK/(RK*TK)))
+     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+          I_nmda_na=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
+     1    *(Ca_in-Ca_out*dexp(-y(1)*FK/(RK*TK)))
+     1    /(1-dexp(-y(1)*FK/(RK*TK)))
 
 * Equations
 
@@ -309,12 +316,12 @@
         double precision g_na, g_k, g_ca, g_k_ca, g_l
         double precision Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         double precision v_na, v_k, v_l, v_ca
-        double precision g_nmda, P_na
+        double precision g_nmda, P_na, P_k, P_ca
         double precision c_m, I_inj
         double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t_sol, dt_print, t
         double precision I_na, I_k, I_ca, I_k_ca, I_l
-        double precision I_nmda_na
+        double precision I_nmda_na, I_nmda_k, I_nmda_ca
         double precision  m_inf, h_inf, n_inf,
      1		s_inf, kca_inf
         double precision  tau_h,
@@ -334,7 +341,7 @@
         common/concentrations/Na_in, Na_out,K_in, K_out, Ca_out, Ca_in
         common/constantes/FK, TK, RK
         common/pot_equilibre/v_na, v_k, v_l, v_ca
-        common/i_nmda_na/g_nmda, P_na
+        common/i_nmda/g_nmda, P_na, P_k, P_ca
         common/k_cell/c_m, I_inj
         common/gating/m_inf, n_inf
         common/ca/ A, d, ff,k_ca
@@ -347,15 +354,21 @@
 	      I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
 	      I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
 	      I_l=g_l*(y(1)-v_l)
-          I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
+        I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
      1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
+     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+        I_nmda_k=g_nmda*P_k*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
+     1    *(K_in-K_out*dexp(-y(1)*FK/(RK*TK)))
+     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+        I_nmda_na=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
+     1    *(Ca_in-Ca_out*dexp(-y(1)*FK/(RK*TK)))
      1    /(1-dexp(-y(1)*FK/(RK*TK)))
 
 
         if(t_sol.ge.t_print) then
          if(abs(t_sol-(t_print+kk*dt_print)).lt.0.001d0) then
            	write(18,10)t_sol, y(1), y(5)
-     1		,I_na, I_k, I_ca, I_k_ca, I_nmda_na
+     1		,I_nmda_na, I_nmda_k, I_nmda_ca, I_k_ca
           	call flush(18)
 *          write(6,*)'t_print',t_print, t_sol, t_sol-t_print
 			     kk=kk+1
