@@ -285,9 +285,9 @@
           I_nmda_k=g_nmda*P_k*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
      1    *(K_in-K_out*dexp(-y(1)*FK/(RK*TK)))
      1    /(1-dexp(-y(1)*FK/(RK*TK)))
-          I_nmda_na=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
-     1    *(Ca_in-Ca_out*dexp(-y(1)*FK/(RK*TK)))
-     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+          I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
+     1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
+     1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
 
 * Equations
 
@@ -360,9 +360,9 @@
         I_nmda_k=g_nmda*P_k*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
      1    *(K_in-K_out*dexp(-y(1)*FK/(RK*TK)))
      1    /(1-dexp(-y(1)*FK/(RK*TK)))
-        I_nmda_na=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
-     1    *(Ca_in-Ca_out*dexp(-y(1)*FK/(RK*TK)))
-     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+        I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
+     1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
+     1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
 
 
         if(t_sol.ge.t_print) then
