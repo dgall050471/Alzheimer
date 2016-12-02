@@ -225,7 +225,7 @@
         double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t, dt_print,t_sol
         double precision I_na, I_k, I_ca, I_k_ca, I_l
-        double precision I_nmda_na, I_nmda_k, I_nmda_ca
+        double precision I_nmda_na, I_nmda_k, I_nmda_ca, I_nmda
         double precision  m_inf, h_inf, n_inf,
      1		s_inf, kca_inf
         double precision  tau_h,
@@ -288,11 +288,12 @@
           I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
      1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
      1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
+          I_nmda=I_nmda_na+I_nmda_k+I_nmda_ca
 
 * Equations
 
 *     	dv/dt
-	     f(1)=-1/c_m*(I_na+I_k+I_ca+I_k_ca+I_l+I_inj)
+	     f(1)=-1/c_m*(I_na+I_k+I_ca+I_k_ca+I_nmda+I_l+I_inj)
 *	dh/dt
 	     f(2)=(h_inf-y(2))/tau_h
 *	ds/dt
@@ -300,7 +301,7 @@
 *	dkca_act/dt
 	     f(4)=(kca_inf-y(4))/tau_kca
 *	dcai/dt
-	     f(5)=ff*(-I_ca/(2*FK*A*d*1d-15)-k_ca*y(5))
+	     f(5)=ff*((-I_ca-I_nmda)/(2*FK*A*d*1d-15)-k_ca*y(5))
 * 1 L=10^15 um^3
 
       return
@@ -321,7 +322,7 @@
         double precision FK, TK, RK, A, d,ff,k_ca
         double precision dt, t_max, t_print, t_sol, dt_print, t
         double precision I_na, I_k, I_ca, I_k_ca, I_l
-        double precision I_nmda_na, I_nmda_k, I_nmda_ca
+        double precision I_nmda_na, I_nmda_k, I_nmda_ca, I_nmda
         double precision  m_inf, h_inf, n_inf,
      1		s_inf, kca_inf
         double precision  tau_h,
@@ -363,12 +364,13 @@
         I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
      1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
      1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
+        I_nmda=I_nmda_na+I_nmda_k+I_nmda_ca
 
 
         if(t_sol.ge.t_print) then
          if(abs(t_sol-(t_print+kk*dt_print)).lt.0.001d0) then
            	write(18,10)t_sol, y(1), y(5)
-     1		,I_nmda_na, I_nmda_k, I_nmda_ca, I_k_ca
+     1		,I_nmda_na, I_nmda_k, I_nmda_ca, I_nmda, I_k_ca
           	call flush(18)
 *          write(6,*)'t_print',t_print, t_sol, t_sol-t_print
 			     kk=kk+1
