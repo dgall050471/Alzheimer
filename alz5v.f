@@ -66,7 +66,7 @@
 *       g_nmda_est permeabilité max
 *       en 10^15 um/ms (L=10^15 um^3)
 *       valeur Naranayan 10 nm/s
-        g_nmda=10d-21
+        g_nmda=250*10d-21
         P_na=1.0d0
         P_k=1.0d0
         P_ca=10.6d0
@@ -301,7 +301,7 @@
 *	dkca_act/dt
 	     f(4)=(kca_inf-y(4))/tau_kca
 *	dcai/dt
-	     f(5)=ff*((-I_ca-I_nmda)/(2*FK*A*d*1d-15)-k_ca*y(5))
+	     f(5)=ff*((-I_ca-I_nmda_ca)/(2*FK*A*d*1d-15)-k_ca*y(5))
 * 1 L=10^15 um^3
 
       return
