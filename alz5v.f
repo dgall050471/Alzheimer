@@ -65,8 +65,8 @@
 *       scaling I_nmda
 *       g_nmda_est permeabilité max
 *       en 10^15 um/ms (L=10^15 um^3)
-*       valeur Naranayan 10 nm/s
-        g_nmda=250*10d-21
+*       valeur Naranayan 10 nm/s=10*10d-21*10^15 um/ms
+        g_nmda=0*10d-21
         P_na=1.0d0
         P_k=1.0d0
         P_ca=10.6d0
@@ -114,9 +114,9 @@
 *        v_ca=80.d0
         v_l=-65.d0
 
-        imax=1
+        imax=30
 *      I_inj=0.06535097d0
-        I_inj=-6.0d0
+        I_inj=0.0d0
         do i=1, imax
             max1=100
             max2=100
@@ -125,46 +125,46 @@
 
 *       parametres pour la routine d integration
 
-        t_max=10000.d0
-		    t_print=10.0d0
-		    t_jump=6000.d0
-        dt=0.005d0
-        dt_print=0.05d0
-        t=0.0d0
-        adtol=0.01d0
-        i_max=int(t_max/dt)
-        q=1
+            t_max=10000.d0
+		        t_print=10.0d0
+		        t_jump=6000.d0
+            dt=0.005d0
+            dt_print=0.05d0
+            t=0.0d0
+            adtol=0.01d0
+            i_max=int(t_max/dt)
+            q=1
 
 
-        write(6,*)I_inj
+            write(6,*)I_inj
 
 *       conditions initiales
-        y(1)=-60.d0
-        y(2)=0.1d0
-        y(3)=0.1d0
-        y(4)=0.1d0
-        y(5)=0.1d0
+            y(1)=-60.d0
+            y(2)=0.1d0
+            y(3)=0.1d0
+            y(4)=0.1d0
+            y(5)=0.1d0
 
-        yout(1)=-60.d0
-        yout(2)=0.1d0
-        yout(3)=0.1d0
-        yout(4)=0.1d0
-        yout(5)=0.1d0
+            yout(1)=-60.d0
+            yout(2)=0.1d0
+            yout(3)=0.1d0
+            yout(4)=0.1d0
+            yout(5)=0.1d0
 
 
-        open(17)
-        open(18)
-        do n=1,i_max
+            open(17)
+            open(18)
+            do n=1,i_max
 
-           call adams(yout, t, dt, yout,fcn, adtol)
-           call output(t, yout)
-           t=t+dt
+              call adams(yout, t, dt, yout,fcn, adtol)
+              call output(t, yout)
+              t=t+dt
 *		   if(t.ge.t_jump)then
 * 		   I_inj=0.0d0
 *		   endif
-        end do
-        close(18)
-		      I_inj=I_inj-1d0
+            end do
+            close(18)
+		        I_inj=I_inj-1d0
         end do
         close(17)
         end
@@ -369,9 +369,9 @@
 
         if(t_sol.ge.t_print) then
          if(abs(t_sol-(t_print+kk*dt_print)).lt.0.001d0) then
-           	write(18,10)t_sol, y(1), y(5)
-     1		,I_nmda_na, I_nmda_k, I_nmda_ca, I_nmda, I_k_ca
-          	call flush(18)
+*           	write(18,10)t_sol, y(1), y(5)
+*     1		,I_nmda_na, I_nmda_k, I_nmda_ca, I_nmda, I_k_ca
+*          	call flush(18)
 *          write(6,*)'t_print',t_print, t_sol, t_sol-t_print
 			     kk=kk+1
          endif
