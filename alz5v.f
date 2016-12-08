@@ -65,8 +65,8 @@
 *       scaling I_nmda
 *       g_nmda_est permeabilité max
 *       en 10^15 um/ms (L=10^15 um^3)
-*       valeur Naranayan 10 nm/s=10d-6 um/ms=10d-21*10d15 um/ms
-        g_nmda=250*10d-21
+*       valeur Naranayan 10 nm/s=10d-6 um/ms=10d-21*1d15 um/ms
+        g_nmda=2500*1d-21
         P_na=1.0d0
         P_k=1.0d0
         P_ca=10.6d0
