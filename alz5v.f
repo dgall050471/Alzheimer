@@ -66,7 +66,7 @@
 *       g_nmda_est permeabilité max
 *       en 10^15 um/ms (L=10^15 um^3)
 *       valeur Naranayan 10 nm/s=10d-6 um/ms=10d-21*1d15 um/ms
-        g_nmda=2500*1d-21
+        g_nmda=2000*1d-21
         P_na=1.0d0
         P_k=1.0d0
         P_ca=10.6d0
@@ -114,7 +114,7 @@
 *        v_ca=80.d0
         v_l=-65.d0
 
-        imax=30
+        imax=25
 *      I_inj=0.06535097d0
         I_inj=0.0d0
         do i=1, imax
@@ -287,6 +287,7 @@
      1    /(1-dexp(-y(1)*FK/(RK*TK)))
           I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
      1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
+*     1    *(y(5)-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
      1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
           I_nmda=I_nmda_na+I_nmda_k+I_nmda_ca
 
@@ -363,6 +364,7 @@
      1    /(1-dexp(-y(1)*FK/(RK*TK)))
         I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
      1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
+*     1    *(y(5)-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
      1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
         I_nmda=I_nmda_na+I_nmda_k+I_nmda_ca
 
