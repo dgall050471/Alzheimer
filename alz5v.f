@@ -66,7 +66,9 @@
 *       g_nmda_est permeabilité max
 *       en 10^15 um/ms (L=10^15 um^3)
 *       valeur Naranayan 10 nm/s=10d-6 um/ms=10d-21*1d15 um/ms
-        g_nmda=2000*1d-21
+*        g_nmda=2000*1d-21
+        g_nmda=0.7d0
+*        g_nmda=0.0d0
         P_na=1.0d0
         P_k=1.0d0
         P_ca=10.6d0
@@ -279,16 +281,19 @@
           I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
           I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
           I_l=g_l*(y(1)-v_l)
-          I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
-     1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
-     1    /(1-dexp(-y(1)*FK/(RK*TK)))
-          I_nmda_k=g_nmda*P_k*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
-     1    *(K_in-K_out*dexp(-y(1)*FK/(RK*TK)))
-     1    /(1-dexp(-y(1)*FK/(RK*TK)))
-          I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
-     1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
+          I_nmda_na=g_nmda*Mg_beta(y(1))*(y(1)-v_na)
+          I_nmda_k=g_nmda*Mg_beta(y(1))*(y(1)-v_k)
+          I_nmda_ca=g_nmda*Mg_beta(y(1))*(y(1)-20d0)
+*          I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
+*     1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
+*     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+*          I_nmda_k=g_nmda*P_k*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
+*     1    *(K_in-K_out*dexp(-y(1)*FK/(RK*TK)))
+*     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+*          I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
+*     1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
 *     1    *(y(5)-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
-     1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
+*     1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
           I_nmda=I_nmda_na+I_nmda_k+I_nmda_ca
 
 * Equations
@@ -356,16 +361,19 @@
 	      I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
 	      I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
 	      I_l=g_l*(y(1)-v_l)
-        I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
-     1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
-     1    /(1-dexp(-y(1)*FK/(RK*TK)))
-        I_nmda_k=g_nmda*P_k*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
-     1    *(K_in-K_out*dexp(-y(1)*FK/(RK*TK)))
-     1    /(1-dexp(-y(1)*FK/(RK*TK)))
-        I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
-     1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
+        I_nmda_na=g_nmda*Mg_beta(y(1))*(y(1)-v_na)
+        I_nmda_k=g_nmda*Mg_beta(y(1))*(y(1)-v_k)
+        I_nmda_ca=g_nmda*Mg_beta(y(1))*(y(1)-20d0)
+*        I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
+*     1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
+*     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+*        I_nmda_k=g_nmda*P_k*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
+*     1    *(K_in-K_out*dexp(-y(1)*FK/(RK*TK)))
+*     1    /(1-dexp(-y(1)*FK/(RK*TK)))
+*        I_nmda_ca=g_nmda*P_ca*Mg_beta(y(1))*4*y(1)*FK**2/(RK*TK)
+*     1    *(Ca_in-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
 *     1    *(y(5)-Ca_out*dexp(-2*y(1)*FK/(RK*TK)))
-     1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
+*     1    /(1-dexp(-2*y(1)*FK/(RK*TK)))
         I_nmda=I_nmda_na+I_nmda_k+I_nmda_ca
 
 
@@ -510,6 +518,7 @@
 *--------------------------------------------------------
         implicit none
         double precision v, Mg_beta
-           Mg_beta=1d0/(1+(2000*dexp(-0.062d0*v))/3570.0d0)
+           Mg_beta=(v+110d0)**5/(100d0**5+(v+110d0)**5)
+*           Mg_beta=1d0/(1+(2000*dexp(-0.062d0*v))/3570.0d0)
             return
            end
