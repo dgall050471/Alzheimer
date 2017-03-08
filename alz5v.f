@@ -67,7 +67,7 @@
 *       en 10^15 um/ms (L=10^15 um^3)
 *       valeur Naranayan 10 nm/s=10d-6 um/ms=10d-21*1d15 um/ms
 *        g_nmda=2000*1d-21
-        g_nmda=0.7d0
+        g_nmda=0.4d0
 *        g_nmda=0.0d0
         P_na=1.0d0
         P_k=1.0d0
@@ -116,9 +116,9 @@
 *        v_ca=80.d0
         v_l=-65.d0
 
-        imax=25
+        imax=1
 *      I_inj=0.06535097d0
-        I_inj=0.0d0
+        I_inj=-6.0d0
         do i=1, imax
             max1=100
             max2=100
@@ -131,7 +131,7 @@
 		        t_print=10.0d0
 		        t_jump=6000.d0
             dt=0.005d0
-            dt_print=0.05d0
+            dt_print=0.005d0
             t=0.0d0
             adtol=0.01d0
             i_max=int(t_max/dt)
@@ -281,9 +281,9 @@
           I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
           I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
           I_l=g_l*(y(1)-v_l)
-          I_nmda_na=g_nmda*Mg_beta(y(1))*(y(1)-v_na)
-          I_nmda_k=g_nmda*Mg_beta(y(1))*(y(1)-v_k)
-          I_nmda_ca=g_nmda*Mg_beta(y(1))*(y(1)-20d0)
+          I_nmda_na=1.0*0.4d0*Mg_beta(y(1))*(y(1)-v_na)
+          I_nmda_k=1.0*0.3d0*Mg_beta(y(1))*(y(1)-v_k)
+          I_nmda_ca=1.0*0.5d0*Mg_beta(y(1))*(y(1)-20d0)
 *          I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
 *     1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
 *     1    /(1-dexp(-y(1)*FK/(RK*TK)))
@@ -361,9 +361,9 @@
 	      I_ca=g_ca*y(3)**2*1*(y(1)-v_ca)
 	      I_k_ca=g_k_ca*y(4)*(y(1)-v_k)
 	      I_l=g_l*(y(1)-v_l)
-        I_nmda_na=g_nmda*Mg_beta(y(1))*(y(1)-v_na)
-        I_nmda_k=g_nmda*Mg_beta(y(1))*(y(1)-v_k)
-        I_nmda_ca=g_nmda*Mg_beta(y(1))*(y(1)-20d0)
+        I_nmda_na=1.0*0.4d0*Mg_beta(y(1))*(y(1)-v_na)
+        I_nmda_k=1.0*0.3d0*Mg_beta(y(1))*(y(1)-v_k)
+        I_nmda_ca=1.0*0.5d0*Mg_beta(y(1))*(y(1)-20d0)
 *        I_nmda_na=g_nmda*P_na*Mg_beta(y(1))*y(1)*FK**2/(RK*TK)
 *     1    *(Na_in-Na_out*dexp(-y(1)*FK/(RK*TK)))
 *     1    /(1-dexp(-y(1)*FK/(RK*TK)))
@@ -379,9 +379,9 @@
 
         if(t_sol.ge.t_print) then
          if(abs(t_sol-(t_print+kk*dt_print)).lt.0.001d0) then
-*           	write(18,10)t_sol, y(1), y(5)
-*     1		,I_nmda_na, I_nmda_k, I_nmda_ca, I_nmda, I_k_ca
-*          	call flush(18)
+           	write(18,10)t_sol, y(1), y(5)
+     1		,I_nmda_na, I_nmda_k, I_nmda_ca, I_nmda, I_k_ca
+          	call flush(18)
 *          write(6,*)'t_print',t_print, t_sol, t_sol-t_print
 			     kk=kk+1
          endif
