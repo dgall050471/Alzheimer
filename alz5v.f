@@ -63,9 +63,12 @@
 *       sinon dv/dt toujours <0 si I_inj>0
 
 *       scaling I_nmda
-*       g_nmda_est permeabilité max
-*       en 10^15 um/ms (L=10^15 um^3)
-*       valeur Naranayan 10 nm/s=10d-6 um/ms=10d-21*1d15 um/ms
+*       g_nmda_est permeabilité max*surface cellule
+*       P_max en 10^15 um/ms (L=10^15 um^3)
+*       valeur Naranayan P_max 15 nm/s=15d-6 um/ms=15d-21*1d15 um/ms
+*       multiplication factor in I_nmda is 2000  d-21*1d15 um^3/ms
+*       which is the maximal permeability*cell surface
+*       max permeability P_bar_nmda is actually 2000/314=6.37 nm/s
         g_nmda=2000*1d-21
         P_na=1.0d0
         P_k=1.0d0
