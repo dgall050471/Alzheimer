@@ -57,9 +57,11 @@
         g_ca=2.9d0*20.0d0
 *        g_ca=2.9d0*15.0d0
 *        g_k_ca=56.5d0*1.6
-        g_k_ca=56.5d0*1.0
-        g_l=0.0d0
-*        g_l=0.0971d0
+*        g_k_ca=56.5d0*0.7
+        g_k_ca=56.5d0*6.0
+*        g_l=0.0d0
+*        g_l=0.01d0
+        g_l=0.0971d0
 *       sinon dv/dt toujours <0 si I_inj>0
 
 *       scaling I_nmda
@@ -69,7 +71,10 @@
 *       multiplication factor in I_nmda is 2000  d-21*1d15 um^3/ms
 *       which is the maximal permeability*cell surface
 *       max permeability P_bar_nmda is actually 2000/314=6.37 nm/s
-        g_nmda=2000*1d-21
+*        g_nmda=2000*1d-21
+*        g_nmda=2000*1d-21*0.45
+*        g_nmda=2000*1d-21*2
+        g_nmda=2000*1d-21*1.8
 *        g_nmda=0d0
         P_na=1.0d0
         P_k=1.0d0
@@ -107,7 +112,7 @@
         ff=0.01d0
 
 *      extrusion calcium en ms^-1
-        k_ca=10.0d0
+        k_ca=10.0d0*0.6
 
 *        potentiels d inversion en mV
         v_na=(RK*TK/FK)*(dlog(Na_out/Na_in))
@@ -118,9 +123,9 @@
 *        v_ca=80.d0
         v_l=-65.d0
 
-        imax=1
+        imax=1.0d0
 *      I_inj=0.06535097d0
-        I_inj=0.0d0
+        I_inj=-25.0d0
         do i=1, imax
             max1=100
             max2=100
@@ -130,7 +135,7 @@
 *       parametres pour la routine d integration
 
             t_max=10510.d0
-		        t_print=10.0d0
+		        t_print=100.0d0
 		        t_jump=510.d0
             dt=0.005d0
             dt_print=0.005d0
@@ -163,9 +168,10 @@
               call adams(yout, t, dt, yout,fcn, adtol)
               call output(t, yout)
               t=t+dt
-		   if(t.ge.t_jump)then
- 		   I_inj=0d0-2*1d-3*(t-510)
-		   endif
+*		   if(t.ge.t_jump)then
+* 		   I_inj=-25.0d0
+* 		   I_inj=0d0-2*1d-3*(t-510)
+*		   endif
 
             end do
             close(18)
@@ -308,6 +314,7 @@
 	     f(4)=(kca_inf-y(4))/tau_kca
 *	dcai/dt
 	     f(5)=ff*((-I_ca-I_nmda_ca)/(2*FK*A*d*1d-15)-k_ca*y(5))
+*	     f(5)=ff*((-I_ca)/(2*FK*A*d*1d-15)-k_ca*y(5))
 * 1 L=10^15 um^3
 
       return
@@ -376,7 +383,7 @@
 
         if(t_sol.ge.t_print) then
          if(abs(t_sol-(t_print+kk*dt_print)).lt.0.001d0) then
-           	write(18,10)t_sol, y(1), y(5), I_inj
+           	write(18,10)t_sol, y(1),I_nmda, y(5), I_k_ca
 *     1		,I_nmda_na, I_nmda_k, I_nmda_ca, I_nmda, I_k_ca, I_ca
           	call flush(18)
 *          write(6,*)'t_print',t_print, t_sol, t_sol-t_print
@@ -497,7 +504,8 @@
 *--------------------------------------------------------
 	      implicit none
         double precision v,ca, alpha_kca
-	        alpha_kca=12.5d0/(1+(1.5*0.1*dexp(-0.085d0*v)/ca))
+*	        alpha_kca=12.5d0/(1+(1.5*0.11*dexp(-0.085d0*v)/ca))
+	        alpha_kca=12.5d0/(1+(1.5*1*dexp(-0.085d0*v)/ca))
 	         return
 	        end
 
@@ -506,7 +514,8 @@
 *--------------------------------------------------------
         implicit none
         double precision v, ca,  beta_kca
-	       beta_kca=7.5d0/(1+(ca/(0.15*0.1*dexp(-0.077d0*v))))
+*	       beta_kca=7.5d0/(1+(ca/(0.15*0.11*dexp(-0.077d0*v))))
+	       beta_kca=7.5d0/(1+(ca/(0.15*1*dexp(-0.077d0*v))))
 	        return
 	       end
 
